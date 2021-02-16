@@ -97,13 +97,18 @@ def actualiza_persona(correo):
                 'fecha_nacimiento': resp[3]
             }
 
-            SQL = """INSERT INTO usuarios (
+            SQL = """UPDATE usuarios (
                 nombre,
                 puesto, 
                 correo,
                 fecha_nacimiento
-            ) VALUES (%(nombre)s, %(puesto)s, %(correo)s, %(fecha_nacimiento)s);""" # Note: no quotes
-            cursor.execute(SQL, {
+            ) SET (
+                nombre = %(nombre)s,
+                puesto = %(puesto)s,
+                correo = %(correo)s,
+                fecha_nacimiento = %(fecha_nacimiento)s
+            ) WHERE correo = %(correo)s;""" # Note: no quotes
+            cursor.execute(SQL,  {
                 **viejo,
                 **nueva_persona
             }) 
